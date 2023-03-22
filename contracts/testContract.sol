@@ -3,7 +3,7 @@ pragma solidity 0.8.18;
 
 error Test__OwnerOnly();
 
-contract test {
+contract testContract {
     // state variables
     address payable owner;
 
@@ -17,7 +17,11 @@ contract test {
         owner = payable(msg.sender);
     }
 
-    function hello() public view onlyOwner returns (string memory) {
+    function owner_hello() public view onlyOwner returns (string memory) {
         return "YES!";
+    }
+
+    function hello() public pure returns (string memory) {
+        return "YES!  we're a go!";
     }
 }
