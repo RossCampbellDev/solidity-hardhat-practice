@@ -1,0 +1,26 @@
+const { ethers, getNamedAccounts, network } = require("hardhat")
+require("dotenv").config()
+
+const GOERLI_CONTRACT_ADDRESS = process.env.GOERLI_CONTRACT_ADDRESS
+
+async function main() {
+    if (GOERLI_CONTRACT_ADDRESS) {
+        const { deployer } = (await getNamedAccounts()).deployer
+        const deployedContract = await ethers.getContractAt(
+            "test",
+            GOERLI_CONTRACT_ADDRESS
+        )
+        if (deployedContract) {
+            console.log(`got the contract at ${deployedContract.address}`)
+            console.log(`owner: ${await deployedContract.owner()}`)
+            console.log(`first person: ${await deployedContract.getPerson(0)}`)
+        }
+    } else {
+        console.log("missing a contract address")
+    }
+}
+
+main().catch((error) => {
+    console.error(error)
+    process.exitCode = 1
+})
