@@ -5,7 +5,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
 !developmentChains.includes(network.name)
     ? describe.skip
     : describe("test this contract!", async function () {
-          let testContract, testContract2, deployer
+          let testContract, testContract2, deployer, aggregator
           const chainId = network.config.chainId
 
           beforeEach(async function () {
@@ -17,9 +17,22 @@ const { developmentChains } = require("../../helper-hardhat-config")
                   testContract2.abi,
                   testContract2.address
               )
+              aggregator2 = await deployments.get("MockV3Aggregator")
+              aggregator = await ethers.getContractAt(
+                  aggregator2.abi,
+                  aggregator2.address
+              )
           })
 
-          describe("constructor", async function () {
+          describe("test the aggregator mock", async function () {
+              it("retrieves the aggregator version", async function () {
+                  const ver = await testContract.testAggregator()
+                  console.log(`agg version: ${ver}`)
+                  assert(ver != null)
+              })
+          })
+
+          describe("test.sol constructor", async function () {
               it("initialises with an initial supply > 0", async function () {
                   const init_supply = await testContract.i_initialSupply()
                   expect(init_supply).to.be.above(0)
@@ -36,6 +49,9 @@ const { developmentChains } = require("../../helper-hardhat-config")
                   const population = await testContract.getPopulation()
                   assert(population == 0)
               })
+          })
+
+          describe("test the test.sol contract", async function () {
               it("increments counter when adding a person", async function () {
                   await testContract.newPerson("Ross", 32)
                   const population = await testContract.getPopulation()

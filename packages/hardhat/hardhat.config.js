@@ -11,7 +11,9 @@ const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL
 const GOERLI_PRIVATE_KEY = process.env.GOERLI_PRIVATE_KEY
 
 module.exports = {
-    solidity: "0.8.18",
+    solidity: {
+        compilers: [{ version: "0.8.18" }, { version: "0.8.4" }],
+    },
     defaultNetwork: "hardhat",
     networks: {
         localhost: {
