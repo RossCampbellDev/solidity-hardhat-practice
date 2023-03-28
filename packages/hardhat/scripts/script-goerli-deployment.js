@@ -2,13 +2,14 @@ const { ethers, getNamedAccounts, network } = require("hardhat")
 require("dotenv").config()
 
 const GOERLI_CONTRACT_ADDRESS = process.env.GOERLI_CONTRACT_ADDRESS
+const GOERLI_WALLET = process.env.GOERLI_WALLET
 
 async function main() {
     if (GOERLI_CONTRACT_ADDRESS) {
-        const { deployer } = (await getNamedAccounts()).deployer
         const deployedContract = await ethers.getContractAt(
             "test",
-            GOERLI_CONTRACT_ADDRESS
+            GOERLI_CONTRACT_ADDRESS,
+            GOERLI_WALLET
         )
         if (deployedContract) {
             console.log(`got the contract at ${deployedContract.address}`)
@@ -20,7 +21,4 @@ async function main() {
     }
 }
 
-main().catch((error) => {
-    console.error(error)
-    process.exitCode = 1
-})
+main()

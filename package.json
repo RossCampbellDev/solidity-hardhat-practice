@@ -18,5 +18,8 @@
     "node": "yarn workspace @practice/hardhat node",
     "chain": "yarn workspace @practice/hardhat chain",
     "deploy": "yarn workspace @practice/hardhat deploy"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.8.2"
   }
 }
