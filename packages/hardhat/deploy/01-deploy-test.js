@@ -18,7 +18,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     } else {
         ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"]
     }
-
+    console.log(`price feed: ${ethUsdPriceFeedAddress}`)
+    
     const args = [25, ethUsdPriceFeedAddress] // initial supply
     const testContract = await deploy("test", {
         from: deployer,

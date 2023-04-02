@@ -3,12 +3,14 @@ pragma solidity 0.8.18;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "./PriceConverter.sol";
 
 error test__SomeError();
 error test__NotOwner();
 
 contract test {
     using Counters for Counters.Counter;
+    using PriceConverter for uint256;
 
     address public owner;
     uint256 public i_initialSupply;
@@ -68,16 +70,21 @@ contract test {
         return population.current();
     }
 
+    function convertEthToUsd(uint256 _amount) public view returns (uint256) {
+        return _amount.getConversionRate(s_priceFeed);
+    }
+
+    function getPriceFromConverter() public view returns (uint256) {
+        return PriceConverter.getPrice(s_priceFeed);
+    }
+
+    // meaningless tests
     function testAggregator() public view returns (uint256) {
         return s_priceFeed.version();
     }
 
-    /*function getConversionRate(
-        uint256 ethAmount
-    ) public view returns (uint256) {
-        uint256 ethPrice = getPrice(s_priceFeed);
-        uint256 ethAmountInUsd = (ethPrice * ethAmount) /
-            s_priceFeed.decimals();
-        return ethAmountInUsd;
-    }*/
+    function getRoundData() public view returns (uint256) {
+        (, int256 result, , , ) = s_priceFeed.latestRoundData();
+        return uint256(result * 10000000000);
+    }
 }

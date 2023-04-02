@@ -27,8 +27,23 @@ const { developmentChains } = require("../../helper-hardhat-config")
           describe("test the aggregator mock", async function () {
               it("retrieves the aggregator version", async function () {
                   const ver = await testContract.testAggregator()
-                  console.log(`agg version: ${ver}`)
+                  console.log(`agg version: ${ver} [should be 0 on mock]`)
                   assert(ver != null)
+              })
+              it("gives us latest round data", async function () {
+                  const data = await testContract.getRoundData()
+                  console.log(`latest round data: ${data}`)
+                  assert(data > 0)
+              })
+              it("returns a price", async function () {
+                  const price = await testContract.getPriceFromConverter()
+                  console.log(`price: ${price}`)
+                  assert(price > 0)
+              })
+              it("converts ETH to USD", async function () {
+                  const conversion = await testContract.convertEthToUsd(5)
+                  console.log(`converted 5 ETH to ${conversion} USD`)
+                  assert(conversion > 0)
               })
           })
 

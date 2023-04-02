@@ -17,7 +17,8 @@
     "runscript": "yarn workspace @practice/hardhat runscript",
     "node": "yarn workspace @practice/hardhat node",
     "chain": "yarn workspace @practice/hardhat chain",
-    "deploy": "yarn workspace @practice/hardhat deploy"
+    "deploy": "yarn workspace @practice/hardhat deploy",
+    "runsite": "yarn workspace @practice/next run dev"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.2"
