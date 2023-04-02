@@ -19,7 +19,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"]
     }
     console.log(`price feed: ${ethUsdPriceFeedAddress}`)
-    
+
     const args = [25, ethUsdPriceFeedAddress] // initial supply
     const testContract = await deploy("test", {
         from: deployer,
@@ -27,7 +27,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
     })
-
+    log(`Contract is: ${await testContract.name}`)
     log("-------------------------------------------------")
 }
 
