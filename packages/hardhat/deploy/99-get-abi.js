@@ -1,11 +1,11 @@
 const { ethers, network } = require("hardhat")
 const fs = require("fs")
 
-const FRONT_END_ADDR_FILE = "../next/constants/contractaddresses.json"
-const FRONT_END_ABI_FILE = "../next/constants/abi.json"
+const FRONT_END_ADDR_FILE = "../../next/constants/contractaddresses.json"
+const FRONT_END_ABI_FILE = "../../next/constants/abi.json"
 
 module.exports = async function () {
-    if (process.env.UPDATE_FRONT_END) {
+    if (process.env.UPDATE_FRONT_END === true) {
         console.log("updating front end...")
         console.log(process.cwd())
         await updateContractAddresses()
