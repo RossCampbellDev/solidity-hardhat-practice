@@ -39,7 +39,7 @@ export default function TestPeopleWithContext() {
         if (isWeb3Enabled && person) {
             showInfo()
         }
-    }, [isWeb3Enabled])
+    }, [isWeb3Enabled, selectedPerson])
     
     async function showInfo() {
         if (contractAddress) {
@@ -81,14 +81,12 @@ export default function TestPeopleWithContext() {
 
     return (
         <>
-            <div style={{ padding: 20 + "px", backgroundColor:  "#111519" }}>{contractAddress}
-                { contractAddress ? (<h2>{contractAddress}</h2>) : (<h3>no contract attached</h3>)}
-
+            <div className="p-5 border-b-2 rounded-3xl bg-teal-800">
                 { person ? (
                     <>
-                        <div><h3>There are:</h3> {population} people</div>
-                        <div><h3>The person is:</h3> {person.split(',')[1]}</div>
-                        <div><h3>... and their address:</h3> {person.split(',')[3]}</div>
+                        <div><h3 className="py-4 px-4 font-blog text-2xl">There are:</h3> {population} people</div>
+                        <div><h3 className="py-4 px-4 font-blog text-2xl">The person is:</h3> {person.split(',')[1]}</div>
+                        <div><h3 className="py-4 px-4 font-blog text-2xl">... and their address:</h3> {person.split(',')[3]}</div>
                     </>
                     ) : ( 
                         <div>No Person</div>
@@ -97,18 +95,17 @@ export default function TestPeopleWithContext() {
                 <br/>
                 
                 <div>
-                    <p>Name:</p>
-                    <input 
+                    <p>Name:</p><input 
                         type="text"
                         onChange={updateName}
                     />
-                    <p>Age</p>
-                    <input 
+                    <p>Age</p><input 
                         type="text"
                         onChange={updateAge}
-                    /><br/>
+                    />
                     <button
                         type="button" 
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
                         onClick={ async () => 
                             await onAddNewPerson({
                                 //onComplete:
@@ -118,11 +115,10 @@ export default function TestPeopleWithContext() {
                         }
                     >Add Person</button>
 
-                    <br/><br/><br/>
+                    <br/>
 
                     <select
-                        onChange={changePop}
-                    >
+                        onChange={changePop}>
                         <option value={0}>0</option>
                         <option value={1}>1</option>
                         <option value={2}>2</option>
@@ -130,6 +126,7 @@ export default function TestPeopleWithContext() {
                     </select>
 
                     <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
                         type="button"
                         onClick={ async () => await showInfo() }
                     >update info</button>
