@@ -4,14 +4,13 @@ import { ConnectionContext } from "../index"
 
 export default function TestPeopleWithContext() {
     const {isWeb3Enabled} = useMoralis() 
+    
     let [ person, setPerson ] = useState(null)
     let [ name, setName ] = useState("")
     let [ age, setAge ] = useState(0)
     let [ population, setPopulation ] = useState(1)
     let [ selectedPerson, setSelectedPerson ] = useState(0)
-
-    //let abi = conn.connInfo["myAbi"]
-    //let contractAddress = conn.connInfo["myAddr"]
+    
     const { myAbi: abi, myAddr: contractAddress } = useContext(ConnectionContext)
 
     const { runContractFunction: getPerson } = useWeb3Contract({
@@ -46,7 +45,8 @@ export default function TestPeopleWithContext() {
             const thePopulation = (await getPopulation()).toString()
             const thePerson = (await getPerson()).toString()
             setPopulation(thePopulation)
-            setPerson(thePerson)
+            if (!(selectedPerson > population))
+                setPerson(thePerson)
         }
     }
 
@@ -63,6 +63,7 @@ export default function TestPeopleWithContext() {
     }
 
     const updateName = (e) => {
+        console.log("update")
         setName(e.target.value)
     }
 
@@ -75,61 +76,86 @@ export default function TestPeopleWithContext() {
     }
 
     function changePop(e) {
-        setSelectedPerson(e.target.value)
-        showInfo()
+        if (!(e.target.value > population)) {
+            setSelectedPerson(e.target.value)
+            showInfo()
+        }
+    }
+
+    const PersonInput = () => (        
+        <>
+            <p>Name:</p><input 
+                className="text-black"
+                type="text"
+                onChange={updateName}
+                value={name}
+            />
+            <p>Age</p><input 
+                className="text-black"
+                type="text"
+                onChange={updateAge}
+                value={age}
+            />
+        </>
+    )
+
+    const AddPersonButton = () => (
+        <button
+            type="button" 
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
+            onClick={ async () => 
+                await onAddNewPerson({
+                    //onComplete:
+                    onSuccess: handleNewPerson,
+                    onError: (error) => console.log(error),
+                })
+            }
+        >Add Person</button>
+    )
+
+    const ShowInfoButton = () => (
+        <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
+            type="button"
+            onClick={ async () => await showInfo() }
+        >update info</button>)
+
+    const createPeopleOptions = () => {
+        const options = []
+
+        //(await getPerson(i)).split(',')[1]
+        for (let i=0; i<=population; i++) {
+            options.push(
+                <option key={i} value={i}>
+                    { i }
+                </option>
+            )
+        }
+        return options
     }
 
     return (
         <>
             <div className="p-5 border-b-2 rounded-3xl bg-teal-800">
                 { person ? (
-                    <>
-                        <div><h3 className="py-4 px-4 font-blog text-2xl">There are:</h3> {population} people</div>
-                        <div><h3 className="py-4 px-4 font-blog text-2xl">The person is:</h3> {person.split(',')[1]}</div>
-                        <div><h3 className="py-4 px-4 font-blog text-2xl">... and their address:</h3> {person.split(',')[3]}</div>
-                    </>
+                        <div><h3 className="py-4 px-4 font-blog text-2xl">Selected Person:</h3> 
+                            [{ parseInt(selectedPerson.toString())+1 }/{ parseInt(population.toString())+1 }]&nbsp;
+                            { person.split(',')[1] } - { person.split(',')[3] }</div>
                     ) : ( 
                         <div>No Person</div>
                     )
                 }
-                <br/>
                 
                 <div>
-                    <p>Name:</p><input 
-                        type="text"
-                        onChange={updateName}
-                    />
-                    <p>Age</p><input 
-                        type="text"
-                        onChange={updateAge}
-                    />
-                    <button
-                        type="button" 
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
-                        onClick={ async () => 
-                            await onAddNewPerson({
-                                //onComplete:
-                                onSuccess: handleNewPerson,
-                                onError: (error) => console.log(error),
-                            })
-                        }
-                    >Add Person</button>
-
+                    <PersonInput />
+                    <AddPersonButton />
                     <br/>
-
                     <select
+                        className="text-black"
                         onChange={changePop}>
-                        <option value={0}>0</option>
-                        <option value={1}>1</option>
-                        <option value={2}>2</option>
-                        <option value={3}>3</option>
+                            {createPeopleOptions()}
                     </select>
-
-                    <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
-                        type="button"
-                        onClick={ async () => await showInfo() }
-                    >update info</button>
+                    <ShowInfoButton />
                 </div>
             </div>
         </>
