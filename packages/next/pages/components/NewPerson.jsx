@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useWeb3Contract } from "react-moralis"
+import { useWeb3Contract, useMoralis } from "react-moralis"
 import { ConnectionContext } from "../index"
 
 export default function NewPerson() {
@@ -8,6 +8,8 @@ export default function NewPerson() {
     let [ name, setName ] = useState("")
     let [ age, setAge ] = useState(0)
     let [ population, setPopulation ] = useState(1)
+
+    const { isWeb3Enabled } = useMoralis()
 
     const { runContractFunction: addNewPerson } = useWeb3Contract({
         abi: abi,
@@ -42,14 +44,14 @@ export default function NewPerson() {
     const PersonInput = () => (        
         <>
             <form id='new-person-form'>
-                <p>Name:</p><input 
-                    className="text-black"
+                <p className="font-bold">Name:</p><input 
+                    className="text-black mt-2"
                     type="text"
                     onChange={updateName}
                     value={name}
                 />
-                <p>Age</p><input 
-                    className="text-black"
+                <p className="font-bold mt-2">Age</p><input 
+                    className="text-black mt-2"
                     type="text"
                     onChange={updateAge}
                     value={age}
@@ -61,7 +63,7 @@ export default function NewPerson() {
     const AddPersonButton = () => (
         <button
             type="button" 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto mt-4"
             onClick={ async () => 
                 await onAddNewPerson({
                     //onComplete:
@@ -74,7 +76,7 @@ export default function NewPerson() {
 
     return (
         <>
-            <div>
+            <div className="bg-teal-950 m-8 p-6 w-fit">
                 {/* <PersonInput /> */}
                 {PersonInput()}
                 <AddPersonButton />

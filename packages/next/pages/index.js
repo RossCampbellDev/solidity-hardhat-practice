@@ -1,5 +1,5 @@
 //import Header from "./components/ManualHeader"
-import EasyHeader from "./components/EasyHeader"
+import Web3Connector from "./components/Web3Connector"
 import TestingContract from "./components/TestingContract"
 import DisplayPeople from "./components/DisplayPeople"
 import NewPerson from "./components/NewPerson"
@@ -23,30 +23,30 @@ export default function Home() {
 
     return (
         <>
-            <h1 className="py-4 px-4 font-blog text-3xl">
-                Testing lots of stuff
-            </h1>
+            <div className="container xl px-6">
+                <h1 className="py-4 px-4 font-blog text-3xl">Testing lots of stuff</h1>
 
-            <EasyHeader />
+                <Web3Connector />
 
-            <div>
-                <TestingContract
-                    setOwnerFunc={setTheOwner}
-                    setConnFunc={setConnection}
-                    owner={owner}
-                />
+                <div>
+                    <TestingContract
+                        setOwnerFunc={setTheOwner}
+                        setConnFunc={setConnection}
+                        owner={owner}
+                    />
+                </div>
+
+                {isWeb3Enabled ? (
+                    <>
+                        <ConnectionContext.Provider value={connInfo}>
+                            <DisplayPeople />
+                            <NewPerson />
+                        </ConnectionContext.Provider>
+                    </>
+                ) : (
+                    <div>No Conn</div>
+                )}
             </div>
-
-            {isWeb3Enabled ? (
-                <>
-                    <ConnectionContext.Provider value={connInfo}>
-                        <DisplayPeople />
-                        <NewPerson />
-                    </ConnectionContext.Provider>
-                </>
-            ) : (
-                <div>No Conn</div>
-            )}
         </>
     )
 }
