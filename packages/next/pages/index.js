@@ -1,27 +1,23 @@
 //import Header from "./components/ManualHeader"
 import EasyHeader from "./components/EasyHeader"
 import TestingContract from "./components/TestingContract"
-//import TestPeople from "./components/TestPeople"
-import TestPeopleWithContext from "./components/TestPeopleWithContext"
+import DisplayPeople from "./components/DisplayPeople"
+import NewPerson from "./components/NewPerson"
 import React, { useState } from "react"
+import { useMoralis } from "react-moralis"
 
 export const ConnectionContext = React.createContext()
 
 export default function Home() {
     const [owner, setOwner] = useState(null)
-    //const [myAbi, setMyAbi] = useState(null)
-    //const [myAddr, setMyAddr] = useState(null)
-    const [connInfo, setConnInfo] = useState({}) // for use with Context
+    const [connInfo, setConnInfo] = useState({})
+    const { isWeb3Enabled } = useMoralis()
 
     const setTheOwner = (s) => {
-        console.log(s)
         setOwner(s)
     }
 
     const setConnection = (abi, addr) => {
-        //setMyAbi(abi)
-        //setMyAddr(addr)
-        console.log(addr)
         setConnInfo({ myAbi: abi, myAddr: addr })
     }
 
@@ -31,8 +27,9 @@ export default function Home() {
                 Testing lots of stuff
             </h1>
 
+            <EasyHeader />
+
             <div>
-                <EasyHeader />
                 <TestingContract
                     setOwnerFunc={setTheOwner}
                     setConnFunc={setConnection}
@@ -40,10 +37,16 @@ export default function Home() {
                 />
             </div>
 
-            {/*<TestPeople myAbi={abi} myAddr={addr} />*/}
-            <ConnectionContext.Provider value={connInfo}>
-                <div style={{width: 800+"px"}}><TestPeopleWithContext /></div>
-            </ConnectionContext.Provider>
+            {isWeb3Enabled ? (
+                <>
+                    <ConnectionContext.Provider value={connInfo}>
+                        <DisplayPeople />
+                        <NewPerson />
+                    </ConnectionContext.Provider>
+                </>
+            ) : (
+                <div>No Conn</div>
+            )}
         </>
     )
 }

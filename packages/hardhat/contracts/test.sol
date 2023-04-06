@@ -63,6 +63,7 @@ contract test {
     }
 
     function getPerson(uint256 n) public view returns (Person memory) {
+        
         return people[n];
     }
 
