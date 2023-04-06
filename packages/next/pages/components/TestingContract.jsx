@@ -37,8 +37,8 @@ export default function TestingContract(props) {
             <div className="p-5 flex flex-row">
             { owner ? 
                 (
-                    <><div><h3 className="py-4 px-4 font-blog text-2xl">The owner is:</h3>{owner}!<br/>
-                    <h3 className="py-4 px-4 font-blog text-2xl">Contract:</h3>{contractAddress}</div></>
+                    // <><div><h3 className="py-4 px-4 font-blog text-2xl">The owner is:</h3>{owner}!<br/>
+                    <><div><h3 className="py-4 px-4 font-blog text-2xl">Connected To Contract:</h3>{contractAddress}</div></>
                 ) : (
                     <div>No Owner</div>
                 )}
