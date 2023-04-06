@@ -1,0 +1,55 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn install
+
+PATH: 
+  /home/gandalf/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/gandalf/.rvm/bin:/home/gandalf/.rvm/bin:/home/gandalf/.rvm/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  19.8.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: connect ENETUNREACH 10.10.10.10:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1532:16)
+
+npm manifest: 
+  {
+    "private": true,
+    "workspaces": {
+      "packages": [
+        "packages/*"
+      ],
+      "nohoist": [
+        "**/hardhat",
+        "**/hardhat/**",
+        "**/hardhat-ts",
+        "**/hardhat-ts/**"
+      ]
+    },
+    "scripts": {
+      "test": "yarn workspace @practice/hardhat test",
+      "compile": "yarn workspace @practice/hardhat compile",
+      "runscript": "yarn workspace @practice/hardhat runscript",
+      "node": "yarn workspace @practice/hardhat node",
+      "chain": "yarn workspace @practice/hardhat chain",
+      "deploy": "yarn workspace @practice/hardhat deploy",
+      "runsite": "yarn workspace @practice/next run dev"
+    },
+    "dependencies": {
+      "@openzeppelin/contracts": "^4.8.2",
+      "moralis": "^2.18.1",
+      "moralis-v1": "^1.12.0",
+      "react-moralis": "^1.4.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -41,18 +41,20 @@ export default function NewPerson() {
 
     const PersonInput = () => (        
         <>
-            <p>Name:</p><input 
-                className="text-black"
-                type="text"
-                onChange={updateName}
-                value={name}
-            />
-            <p>Age</p><input 
-                className="text-black"
-                type="text"
-                onChange={updateAge}
-                value={age}
-            />
+            <form id='new-person-form'>
+                <p>Name:</p><input 
+                    className="text-black"
+                    type="text"
+                    onChange={updateName}
+                    value={name}
+                />
+                <p>Age</p><input 
+                    className="text-black"
+                    type="text"
+                    onChange={updateAge}
+                    value={age}
+                />
+            </form>
         </>
     )
 
@@ -73,7 +75,8 @@ export default function NewPerson() {
     return (
         <>
             <div>
-                <PersonInput />
+                {/* <PersonInput /> */}
+                {PersonInput()}
                 <AddPersonButton />
             </div>
         </>

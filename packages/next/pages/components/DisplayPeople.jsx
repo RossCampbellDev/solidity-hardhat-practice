@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { useWeb3Contract } from "react-moralis"
+import { useWeb3Contract, isWeb3Enabled } from "react-moralis"
 import { ConnectionContext } from "../index"
 import DisplayPerson from "./DisplayPerson"
 
@@ -15,7 +15,8 @@ export default function DisplayPeople() {
             console.log(`set pop to ${p}`)
             buildAllPeople()
         }
-        go()
+        if (isWeb3Enabled)
+            go()
     }, [])
 
     const { runContractFunction: getPopulation } = useWeb3Contract({
@@ -35,7 +36,11 @@ export default function DisplayPeople() {
 
     return (
         <>
-            <div>{allPeopleComponents}</div>
+            { Object.keys(allPeopleComponents).length > 0 ? (
+                <div>{allPeopleComponents}</div>
+            ) : (
+                <div>No People!</div>
+            )}
         </>
     )
 }

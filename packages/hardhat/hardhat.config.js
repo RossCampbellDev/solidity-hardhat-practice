@@ -20,17 +20,17 @@ module.exports = {
             url: "http://127.0.0.1:8545/",
             chainId: 31337,
         },
-        Goerli: {
-            url: GOERLI_RPC_URL,
-            chainId: 5,
-            accounts: [GOERLI_PRIVATE_KEY],
-            blockConfirmations: 6,
-        },
+        // Goerli: {
+        //     url: GOERLI_RPC_URL,
+        //     chainId: 5,
+        //     accounts: [GOERLI_PRIVATE_KEY],
+        //     blockConfirmations: 6,
+        // },
     },
     namedAccounts: {
         deployer: {
             default: 0, // 0th account in the list?  eg the 10 sample accounts on a node
-            Goerli: GOERLI_PRIVATE_KEY,
+            // Goerli: GOERLI_PRIVATE_KEY,
         },
     },
 }

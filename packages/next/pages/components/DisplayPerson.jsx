@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { useWeb3Contract } from "react-moralis"
+import { useWeb3Contract, isWeb3Enabled } from "react-moralis"
 import { ConnectionContext } from "../index"
 
 export default function DisplayPerson(props) {
@@ -17,7 +17,10 @@ export default function DisplayPerson(props) {
     })
 
     useEffect(() => {
-        getThePerson()
+        if (isWeb3Enabled) {
+            console.log(`addr: ${contractAddress}\n${abi}`)
+            getThePerson()
+        }
     }, [])
 
     async function getThePerson() {

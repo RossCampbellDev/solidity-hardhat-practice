@@ -27,7 +27,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
     })
-    log(`Contract is: ${await testContract.name}`)
+    log(`Contract is: ${(await testContract.name)}`)
     log("-------------------------------------------------")
 }
 
