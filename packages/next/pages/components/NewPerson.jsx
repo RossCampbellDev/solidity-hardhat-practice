@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useWeb3Contract, useMoralis } from "react-moralis"
+import { useWeb3Contract } from "react-moralis"
 import { ConnectionContext } from "../index"
 
 export default function NewPerson() {
@@ -7,9 +7,6 @@ export default function NewPerson() {
 
     let [ name, setName ] = useState("")
     let [ age, setAge ] = useState(0)
-    let [ population, setPopulation ] = useState(1)
-
-    const { isWeb3Enabled } = useMoralis()
 
     const { runContractFunction: addNewPerson } = useWeb3Contract({
         abi: abi,
@@ -21,7 +18,6 @@ export default function NewPerson() {
     const handleNewPerson = async (tx) => {
         try {
             await tx.wait(1)
-            setPopulation(population+1)
             setName("")
             setAge(null)
         } catch (e) {
@@ -63,7 +59,7 @@ export default function NewPerson() {
     const AddPersonButton = () => (
         <button
             type="button" 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto mt-4"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
             onClick={ async () => 
                 await onAddNewPerson({
                     //onComplete:
@@ -76,7 +72,7 @@ export default function NewPerson() {
 
     return (
         <>
-            <div className="bg-teal-950 m-8 p-6 w-fit">
+            <div className="bg-teal-950 m-2 p-4 w-fit">
                 {/* <PersonInput /> */}
                 {PersonInput()}
                 <AddPersonButton />

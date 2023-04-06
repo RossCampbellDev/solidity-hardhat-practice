@@ -18,17 +18,19 @@ export default function Home() {
     }
 
     const setConnection = (abi, addr) => {
-        setConnInfo({ myAbi: abi, myAddr: addr })
+        setConnInfo({ myAbi: abi, myAddr: addr, isWeb3Enabled: isWeb3Enabled })
     }
 
     return (
         <>
             <div className="container xl px-6">
-                <h1 className="py-4 px-4 font-blog text-3xl">Testing lots of stuff</h1>
+                <h1 className="py-4 px-4 font-blog text-3xl">The Big People Test</h1>
 
                 <Web3Connector />
 
                 <div>
+                    {connInfo["abi"]}
+                    {connInfo["addr"]}
                     <TestingContract
                         setOwnerFunc={setTheOwner}
                         setConnFunc={setConnection}
@@ -44,7 +46,7 @@ export default function Home() {
                         </ConnectionContext.Provider>
                     </>
                 ) : (
-                    <div>No Conn</div>
+                    <></>
                 )}
             </div>
         </>

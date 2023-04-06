@@ -1,34 +1,34 @@
 import { useContext, useEffect, useState } from "react"
-import { useWeb3Contract, isWeb3Enabled, useMoralis } from "react-moralis"
+import { useWeb3Contract } from "react-moralis"
 import { ConnectionContext } from "../index"
 import DisplayPerson from "./DisplayPerson"
 
 export default function DisplayPeople() {
-    const { myAbi: abi, myAddr: contractAddress } = useContext(ConnectionContext)
+    const { myAbi: abi, myAddr: contractAddress, isWeb3Enabled } = useContext(ConnectionContext)
     const [population, setPopulation] = useState(0)
     const [allPeopleComponents, setAllPeopleComponents] = useState([])
-
-    const { isWeb3Enabled } = useMoralis()
 
     const { runContractFunction: getPopulation } = useWeb3Contract({
         abi: abi,
         contractAddress: contractAddress,
         functionName: "getPopulation",
-        params: {},
+        params: {}
     })
 
     useEffect(() => {
         if (isWeb3Enabled) {
-            console.log(`contract: ${contractAddress}\nABI: ${abi}`)
             async function go() {
-                const p = (await getPopulation())
-                setPopulation(p)
-                console.log(`set pop to ${p}`)
-                buildAllPeople()
+                try {
+                    const p = (await getPopulation()).toString()
+                    setPopulation(p)
+                    buildAllPeople()
+                } catch(e) {
+                    console.log(e)
+                }
             }            
             go()
         }
-    }, [isWeb3Enabled])
+    }, [isWeb3Enabled, population])
 
     const buildAllPeople = () => {
         let people = []
@@ -41,7 +41,7 @@ export default function DisplayPeople() {
     return (
         <>
             { (population > 0) ? (
-                <div className="bg-lime-950 m-8">{ allPeopleComponents }</div>
+                <>{ allPeopleComponents }</>
             ) : (
                 <div>No People!</div>
             )}
