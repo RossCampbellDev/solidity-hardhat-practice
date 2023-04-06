@@ -36,7 +36,7 @@ export default function DisplayPeople() {
 
     return (
         <>
-            { Object.keys(allPeopleComponents).length > 0 ? (
+            { allPeopleComponents ? (
                 <div>{allPeopleComponents}</div>
             ) : (
                 <div>No People!</div>
