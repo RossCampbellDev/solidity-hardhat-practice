@@ -62,9 +62,12 @@ contract test {
         );
     }
 
-    function getPerson(uint256 n) public view returns (Person memory) {
-        
+    function getPerson(uint256 n) public view returns (Person memory) {        
         return people[n];
+    }
+    
+    function deletePerson(uint256 n) public {
+        delete people[n];
     }
 
     function getPopulation() public view returns (uint256) {
