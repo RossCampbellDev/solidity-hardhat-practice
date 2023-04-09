@@ -3,17 +3,25 @@ import { useWeb3Contract } from "react-moralis"
 import { ConnectionContext } from "../index"
 
 export default function DisplayPerson(props) {
-    const { myAbi: abi, myAddr: contractAddress, isWeb3Enabled } = useContext(ConnectionContext)
+    const { abi: abi, addr: contractAddress, isWeb3Enabled, callbackFunc: updatePopulation } = useContext(ConnectionContext)
 
     const [ name, setName ] = useState("")
     const [ age, setAge ] = useState(0)
     const [ address, setAddress ] = useState("")
+    const [ selectedPerson, setSelectedPerson ] = useState("")
 
     const { runContractFunction: getPerson } = useWeb3Contract({
         abi: abi,
         contractAddress: contractAddress,
         functionName: "getPerson",
         params: {n: props.id}
+    })
+
+    const { runContractFunction: deletePerson } = useWeb3Contract({
+        abi: abi,
+        contractAddress: contractAddress,
+        functionName: "deletePerson",
+        params: {n: selectedPerson}
     })
 
     useEffect(() => {
@@ -31,6 +39,17 @@ export default function DisplayPerson(props) {
         }
     }
 
+    async function makeCallback() {
+        await updatePopulation()
+    }
+
+    const deleteThisPerson = async (n) => {
+        setSelectedPerson(n)
+        deletePerson({
+            onSuccess: makeCallback
+        })
+    }
+
     return (
         <>
             <div className="bg-zinc-950 m-2 p-2 hover:bg-zinc-700">
@@ -40,7 +59,12 @@ export default function DisplayPerson(props) {
                 
                 <div>
                     <div id="address">{address}</div>
-                </div>  
+                </div>
+
+                <div className="cursor-pointer hover:underline hover:decoration-sky-500"
+                    onClick={() => deleteThisPerson(props.id)}
+                    >Delete
+                </div>
             </div>
         </>
     )

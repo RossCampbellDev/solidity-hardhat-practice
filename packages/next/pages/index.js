@@ -1,8 +1,7 @@
 //import Header from "./components/ManualHeader"
-import Web3Connector from "./components/Web3Connector"
+import HeaderNav from "./components/HeaderNav"
 import TestingContract from "./components/TestingContract"
 import DisplayPeople from "./components/DisplayPeople"
-import NewPerson from "./components/NewPerson"
 import React, { useState } from "react"
 import { useMoralis } from "react-moralis"
 
@@ -18,19 +17,15 @@ export default function Home() {
     }
 
     const setConnection = (abi, addr) => {
-        setConnInfo({ myAbi: abi, myAddr: addr, isWeb3Enabled: isWeb3Enabled })
+        setConnInfo({ abi: abi, addr: addr, isWeb3Enabled: isWeb3Enabled })
     }
 
     return (
         <>
             <div className="container xl px-6">
-                <h1 className="py-4 px-4 font-blog text-3xl">The Big People Test</h1>
-
-                <Web3Connector />
+                <HeaderNav />
 
                 <div>
-                    {connInfo["abi"]}
-                    {connInfo["addr"]}
                     <TestingContract
                         setOwnerFunc={setTheOwner}
                         setConnFunc={setConnection}
@@ -42,7 +37,6 @@ export default function Home() {
                     <>
                         <ConnectionContext.Provider value={connInfo}>
                             <DisplayPeople />
-                            <NewPerson />
                         </ConnectionContext.Provider>
                     </>
                 ) : (

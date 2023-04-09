@@ -67,6 +67,7 @@ contract test {
     }
     
     function deletePerson(uint256 n) public {
+        population.decrement();
         delete people[n];
     }
 

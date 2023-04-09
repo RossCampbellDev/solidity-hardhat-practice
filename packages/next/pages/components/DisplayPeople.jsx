@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react"
 import { useWeb3Contract } from "react-moralis"
 import { ConnectionContext } from "../index"
 import DisplayPerson from "./DisplayPerson"
+import NewPerson from "./NewPerson"
 
 export default function DisplayPeople() {
-    const { myAbi: abi, myAddr: contractAddress, isWeb3Enabled } = useContext(ConnectionContext)
+    const { abi: abi, addr: contractAddress, isWeb3Enabled } = useContext(ConnectionContext)
     const [population, setPopulation] = useState(0)
     const [allPeopleComponents, setAllPeopleComponents] = useState([])
 
@@ -38,13 +39,25 @@ export default function DisplayPeople() {
         setAllPeopleComponents([people])
     }
 
+    const updatePopulation = async () => {
+        const p = (await getPopulation()).toString()
+        setPopulation(p)
+        console.log(`The pop has been udpated: ${population}`)
+    }
+
     return (
         <>
+            <ConnectionContext.Provider value={{ abi: abi, addr: contractAddress, isWeb3Enabled: isWeb3Enabled, callbackFunc: updatePopulation }}>
             { (population > 0) ? (
-                <>{ allPeopleComponents }</>
+                <>
+                    <div>There are {population} people</div>
+                    { allPeopleComponents }
+                </>
             ) : (
                 <div>No People!</div>
             )}
+                <NewPerson />
+            </ConnectionContext.Provider>
         </>
     )
 }

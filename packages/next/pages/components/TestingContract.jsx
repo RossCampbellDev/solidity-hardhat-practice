@@ -3,7 +3,7 @@ import { useWeb3Contract, useMoralis } from "react-moralis"
 import { abi, contractAddresses } from "../../constants"
 
 export default function TestingContract(props) {
-    const {chainId: chainIdInHex, isWeb3Enabled} = useMoralis()    // the header of useMoralis passes the chainId etc to the moralis provider, which passes it back down to components
+    const {chainId: chainIdInHex, isWeb3Enabled} = useMoralis() // the header of useMoralis passes the chainId etc to the moralis provider, which passes it back down to components
     const ourChainId = parseInt(chainIdInHex)
     const contractAddress = ourChainId in contractAddresses ? contractAddresses[ourChainId][0] : null
     
@@ -37,9 +37,9 @@ export default function TestingContract(props) {
             <div className="p-5 flex flex-row">
             { owner ? 
                 (
-                    <><div><h3 className="font-blog text-xl">Connected To Contract:</h3>{contractAddress}</div></>
+                    <div><h3 className="font-blog text-xl">Connected To Contract:</h3>{contractAddress}</div>
                 ) : (
-                    <></>
+                    <div>Not Connected To A Contract</div>
                 )}
             </div>
         </>

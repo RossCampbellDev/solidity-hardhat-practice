@@ -3,12 +3,12 @@ import { useWeb3Contract } from "react-moralis"
 import { ConnectionContext } from "../index"
 
 export default function NewPerson() {
-    const { myAbi: abi, myAddr: contractAddress } = useContext(ConnectionContext)
+    const { abi: abi, addr: contractAddress, callbackFunc: updatePopulation, isWeb3Enabled } = useContext(ConnectionContext)
 
     let [ name, setName ] = useState("")
     let [ age, setAge ] = useState(0)
 
-    const { runContractFunction: addNewPerson } = useWeb3Contract({
+    const { runContractFunction: addNewPerson, data: txResponse } = useWeb3Contract({
         abi: abi,
         contractAddress: contractAddress,
         functionName: "newPerson",
@@ -19,7 +19,8 @@ export default function NewPerson() {
         try {
             await tx.wait(1)
             setName("")
-            setAge(null)
+            setAge("")
+            await updatePopulation()
         } catch (e) {
             console.log(e)
         }
@@ -61,8 +62,8 @@ export default function NewPerson() {
             type="button" 
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
             onClick={ async () => 
-                await onAddNewPerson({
-                    //onComplete:
+                await addNewPerson({
+                    // onComplete: console.log(`complete!`),
                     onSuccess: handleNewPerson,
                     onError: (error) => console.log(error),
                 })
@@ -72,11 +73,14 @@ export default function NewPerson() {
 
     return (
         <>
-            <div className="bg-teal-950 m-2 p-4 w-fit">
-                {/* <PersonInput /> */}
-                {PersonInput()}
-                <AddPersonButton />
-            </div>
+            { isWeb3Enabled ? (
+                <div className="bg-teal-950 m-2 p-4 w-fit">
+                    {PersonInput()}
+                    <AddPersonButton />
+                </div>
+            ) : (
+                <div>COnnection Required</div>
+            )}
         </>
     )
 }

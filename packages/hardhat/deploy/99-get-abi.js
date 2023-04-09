@@ -1,22 +1,21 @@
 const { ethers, network } = require("hardhat")
 const fs = require("fs")
+const { cwd } = require("process")
+require("dotenv").config()
 
-const FRONT_END_ADDR_FILE = "../../next/constants/contractaddresses.json"
-const FRONT_END_ABI_FILE = "../../next/constants/abi.json"
+const FRONT_END_ADDR_FILE = "../next/constants/contractAddresses.json"
+const FRONT_END_ABI_FILE = "../next/constants/abi.json"
 
 module.exports = async function () {
-    if (process.env.UPDATE_FRONT_END === true) {
+    if (process.env.UPDATE_FRONT_END === true || 1) {
         console.log("updating front end...")
-        console.log(process.cwd())
         await updateContractAddresses()
         await updateABI()
     }
 
     async function updateContractAddresses() {
-        const testContract = await ethers.getContractAt(
-            "test",
-            "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
-        )
+        const testContract = await deployments.get("test")
+
         const currentAddresses = JSON.parse(
             fs.readFileSync(FRONT_END_ADDR_FILE, "utf-8")
         )
@@ -34,13 +33,15 @@ module.exports = async function () {
     }
 
     async function updateABI() {
-        const testContract = await ethers.getContractAt(
-            "test",
-            "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
-        )
+        // const testContract = await ethers.getContractAt(
+        //     "test",
+        //     "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+        // )
+        const testContract = await deployments.get("test")
         fs.writeFileSync(
             FRONT_END_ABI_FILE,
-            testContract.interface.format(ethers.utils.FormatTypes.json)
+            JSON.stringify(testContract.abi)
+            //testContract.interface.format(ethers.utils.FormatTypes.json)
         )
     }
 }
