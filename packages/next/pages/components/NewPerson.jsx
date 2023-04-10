@@ -6,7 +6,7 @@ export default function NewPerson() {
     const { abi: abi, addr: contractAddress, callbackFunc: updatePopulation, isWeb3Enabled } = useContext(ConnectionContext)
 
     let [ name, setName ] = useState("")
-    let [ age, setAge ] = useState(0)
+    let [ age, setAge ] = useState()
 
     const { runContractFunction: addNewPerson, data: txResponse } = useWeb3Contract({
         abi: abi,
@@ -74,7 +74,7 @@ export default function NewPerson() {
     return (
         <>
             { isWeb3Enabled ? (
-                <div className="bg-teal-950 m-2 p-4 w-fit">
+                <div className="bg-zinc-950 m-2 p-4 w-fit">
                     {PersonInput()}
                     <AddPersonButton />
                 </div>

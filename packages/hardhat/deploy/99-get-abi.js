@@ -1,6 +1,5 @@
 const { ethers, network } = require("hardhat")
 const fs = require("fs")
-const { cwd } = require("process")
 require("dotenv").config()
 
 const FRONT_END_ADDR_FILE = "../next/constants/contractAddresses.json"
