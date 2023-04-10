@@ -3,9 +3,8 @@ import { useWeb3Contract } from "react-moralis"
 import { ConnectionContext } from "../../debug"
 
 export default function DisplayPerson(props) {
-    const { abi: abi, addr: contractAddress, isWeb3Enabled } = useContext(ConnectionContext)
-
-    const [ balance, setBalance ] = useState(0)
+    const { abi: abi, addr: contractAddress, isWeb3Enabled, owner } = useContext(ConnectionContext)
+    const [ balance, setBalance ] = useState()
 
     const { runContractFunction: getBalance } = useWeb3Contract({
         abi: abi,
@@ -42,8 +41,15 @@ export default function DisplayPerson(props) {
     return (
         <>
             <div className="">
-                <p>{balance}</p>
-                <GoMinterButton />
+                { balance ? (
+                    <h2>Balance: {balance}</h2>
+                ) : ( <></> )}
+
+                { owner ? (
+                    <GoMinterButton />
+                ) : (
+                    <p>Need to be the contract owner to run this</p>
+                ) }
             </div>
         </>
     )

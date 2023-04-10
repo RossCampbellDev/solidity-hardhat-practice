@@ -50,7 +50,7 @@ export default function DisplayPeople() {
             <ConnectionContext.Provider value={{ abi: abi, addr: contractAddress, isWeb3Enabled: isWeb3Enabled, callbackFunc: updatePopulation }}>
             { (population >= 0) ? (
                 <>
-                    <div>There are {population} people</div>
+                    <div>There are {parseInt(population)+1} people</div>
                     { allPeopleComponents }
                 </>
             ) : (
