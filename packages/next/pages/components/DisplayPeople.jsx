@@ -6,7 +6,7 @@ import NewPerson from "./NewPerson"
 
 export default function DisplayPeople() {
     const { abi: abi, addr: contractAddress, isWeb3Enabled } = useContext(ConnectionContext)
-    const [population, setPopulation] = useState(0)
+    const [population, setPopulation] = useState(-1)
     const [allPeopleComponents, setAllPeopleComponents] = useState([])
 
     const { runContractFunction: getPopulation } = useWeb3Contract({
@@ -48,7 +48,7 @@ export default function DisplayPeople() {
     return (
         <>
             <ConnectionContext.Provider value={{ abi: abi, addr: contractAddress, isWeb3Enabled: isWeb3Enabled, callbackFunc: updatePopulation }}>
-            { (population > 0) ? (
+            { (population >= 0) ? (
                 <>
                     <div>There are {population} people</div>
                     { allPeopleComponents }

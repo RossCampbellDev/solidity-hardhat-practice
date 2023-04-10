@@ -22,7 +22,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="container xl px-6">
+            <div className="container xl px-6 items-center">
                 <HeaderNav />
 
                 <div>
