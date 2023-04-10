@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react"
 import { useWeb3Contract } from "react-moralis"
 import { ConnectionContext } from "../../debug"
 
-export default function DisplayPerson(props) {
-    const { abi: abi, addr: contractAddress, isWeb3Enabled, owner } = useContext(ConnectionContext)
+export default function Minter(props) {
+    const { abi: abi, addr: contractAddress, isWeb3Enabled } = useContext(ConnectionContext)
     const [ balance, setBalance ] = useState()
+    const [ waitingForMint, setwaitingForMint ] = useState(false)
 
     const { runContractFunction: getBalance } = useWeb3Contract({
         abi: abi,
@@ -20,33 +21,58 @@ export default function DisplayPerson(props) {
         params: {}
     })
 
-    async function handleMinting() {
+    const updateUI = async (tx) => {
+        try {
+            await tx.wait(1)
+        } catch(e) {
+            console.log(e)
+        }
         const bal = (await getBalance()).toString()
         setBalance(bal)
+        setwaitingForMint(false)
     }
 
     const GoMinterButton = () => (
         <button
             type="button" 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
+            className="bg-teal-700 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
             onClick={ async () => 
                 await goMint({
-                    onSuccess: handleMinting,
+                    onComplete: setwaitingForMint(true),
+                    onSuccess: updateUI,
                     onError: (error) => console.log(error),
                 })
             }
-        >Mint Token</button>
+            disabled={waitingForMint}
+        >{ waitingForMint ? ('(minting...)') : ('Mint Token') }</button>
+    )
+
+    const CheckBalanceButton = () => (
+        <button
+            type="button" 
+            className="bg-teal-700 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
+            onClick={ async () => 
+                await getBalance({
+                    onComplete: setwaitingForMint(true),
+                    onSuccess: updateUI,
+                    onError: (error) => console.log(error),
+                })
+            }
+            >{ waitingForMint ? ('(checking...)') : ('Check Balance') }</button>
     )
 
     return (
         <>
-            <div className="">
+            <div className="bg-zinc-950 m-2 p-4 border-b-2 border-slate-600"><h1 className="text-2xl">Mint Tokens and check balance</h1>
                 { balance ? (
-                    <h2>Balance: {balance}</h2>
+                    <h3 className="text-xl">Balance: {balance}</h3>
                 ) : ( <></> )}
 
-                { owner ? (
-                    <GoMinterButton />
+                { props.owner ? (
+                    <>
+                        <GoMinterButton />
+                        <CheckBalanceButton />
+                    </>
                 ) : (
                     <p>Need to be the contract owner to run this</p>
                 ) }

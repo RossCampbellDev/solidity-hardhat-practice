@@ -4,6 +4,8 @@ import { useMoralis, useWeb3Contract } from "react-moralis"
 import { abi, contractAddresses } from "../constants"
 import Minter from "./components/debug/Minter"
 import TestingContract from "./components/TestingContract"
+import ConvertEthToUsd from "./components/debug/ConvertEthToUsd"
+import GetRoundData from "./components/debug/GetRoundData"
 
 export const ConnectionContext = React.createContext()
 
@@ -40,10 +42,11 @@ export default function Debug() {
                     <>
                         <ConnectionContext.Provider value={connInfo}>
                             {/* mint func - isOwner */}
-                            <Minter />
-                            {/* getPerson(n) */}
+                            <Minter owner={owner} />
                             {/* convertEthtoUsd(x) */}
+                            <ConvertEthToUsd />
                             {/* getRoundData */}
+                            <GetRoundData />
                         </ConnectionContext.Provider>
                     </>
                 ) : (
