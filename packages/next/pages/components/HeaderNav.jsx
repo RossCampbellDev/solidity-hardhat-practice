@@ -13,11 +13,11 @@ export default function HeaderNav() {
 
                     <div className="float-right w-1/2">
                         <Link href="/" 
-                            className="bg-teal-700 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded mr-4 float-right"
+                            className="bg-emerald-600 hover:bg-emerald-800 text-white font-bold py-2 px-4 rounded mr-4 float-right"
                         >Home</Link>
 
                         <Link href="/debug"                        
-                            className="bg-teal-700 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded mr-4 float-right"
+                            className="bg-emerald-600 hover:bg-emerald-800 text-white font-bold py-2 px-4 rounded mr-4 float-right"
                         >Debug</Link>
                     </div>
                 </div>

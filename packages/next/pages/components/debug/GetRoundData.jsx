@@ -31,7 +31,7 @@ export default function GetRoundData() {
     const RoundDataButton = () => (
         <button
             type="button" 
-            className="bg-teal-700 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
+            className="bg-emerald-600 hover:bg-emerald-800 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
             onClick={ async () => await getRoundData({
                     onComplete: setChecking(true),
                     onSuccess: updateRoundData,

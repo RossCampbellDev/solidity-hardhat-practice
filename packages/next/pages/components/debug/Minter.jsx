@@ -35,7 +35,7 @@ export default function Minter(props) {
     const GoMinterButton = () => (
         <button
             type="button" 
-            className="bg-teal-700 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
+            className="bg-emerald-600 hover:bg-emerald-800 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
             onClick={ async () => 
                 await goMint({
                     onComplete: setwaitingForMint(true),
@@ -50,7 +50,7 @@ export default function Minter(props) {
     const CheckBalanceButton = () => (
         <button
             type="button" 
-            className="bg-teal-700 hover:bg-teal-950 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
+            className="bg-emerald-600 hover:bg-emerald-800 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
             onClick={ async () => 
                 await getBalance({
                     onComplete: setwaitingForMint(true),
